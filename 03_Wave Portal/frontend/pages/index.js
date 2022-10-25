@@ -2,6 +2,8 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
+import {ethers} from "ethers"
+import abi from '../src/utlis/WavePortal.json'
 
 const getEthereumObject = () => window.ethereum;
 
@@ -32,6 +34,10 @@ const findMetaMaskAccount = async () => {
 export default function Home() {
   const [currentAccount, setCurrentAccount] = useState("");
 
+  const contractAddress = "0xc24cC5FD87f6f5Dd437678d401A3C6826A3759E1";
+  const contractABI = abi.abi;
+
+  // connect wallet
   const connectWallet = async () => {
     try {
       const ethereum = getEthereumObject();
@@ -50,6 +56,36 @@ export default function Home() {
       console.log(e);
     }
   };
+
+  // wave function 
+  const wave = async () => {
+    try {
+      const {ethereum} = window;
+      if(ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum)
+        const signer = provider.getSigner()
+        const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer)
+
+        let count = await wavePortalContract.getTotalWaves()
+        console.log("Retrieved total wave count...", count.toNumber());
+
+        // writing to blockchain
+        const waveTxn = await wavePortalContract.wave()
+        console.log("Mining...", waveTxn.hash)
+
+        await waveTxn.wait()
+        console.log("Mined - ", waveTxn.hash)
+
+        count = await wavePortalContract.getTotalWaves()
+        console.log("Retrieved total wave count...", count.toNumber());
+
+      } else {
+        console.log("Ethereum object doesn't exist!")
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  } 
 
   useEffect(() => {
     async function check() {
@@ -72,7 +108,7 @@ export default function Home() {
         I am Kushagra, I build and ship projects off localhost so that's pretty cool right? Connect your Ethereum wallet and wave at me!
       </div>
 
-      <button className={styles.waveButton} onClick={null}>
+      <button className={styles.waveButton} onClick={wave}>
         Wave at Me
       </button>
 
