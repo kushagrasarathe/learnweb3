@@ -150,7 +150,7 @@ export default function Home() {
         <div className={styles.header}>👋 Hey there!</div>
 
         <div className={styles.bio}>
-          I am Kushagra, I build and ship projects off localhost so that's
+          I am Kushagra, I build and ship projects off localhost so that&apos;s
           pretty cool right? Connect your Ethereum wallet and wave at me!
         </div>
 

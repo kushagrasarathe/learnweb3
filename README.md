@@ -17,4 +17,6 @@ There are two types of data-types in solidity:
 
 
 
+
+
   
