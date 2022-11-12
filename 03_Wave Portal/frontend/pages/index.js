@@ -35,7 +35,7 @@ export default function Home() {
   const [currentAccount, setCurrentAccount] = useState("");
   const [allWaves, setAllWaves] = useState([]);
 
-  const contractAddress = "0xF34999a7f6068cAdD8F63B66963EfB2485022029";
+  const contractAddress = "0x9206081496A2E0b92B21a8Be41D95Fd40cEe0Ec5";
   const contractABI = abi.abi;
 
   // connect wallet
