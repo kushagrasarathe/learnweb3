@@ -191,10 +191,6 @@ export default function Home() {
           pretty cool right? Connect your Ethereum wallet and wave at me!
         </div>
 
-        <button className={styles.waveButton} onClick={wave}>
-          Wave at Me
-        </button>
-
         <input
           onChange={(e) => {
             setMsg(e.target.value);
@@ -203,6 +199,10 @@ export default function Home() {
           placeholder="Enter a message here :)"
           className={styles.input}
         />
+
+        <button className={styles.waveButton} onClick={wave}>
+          Wave at Me
+        </button>
 
         {/*
          * If there is no currentAccount render this button
@@ -217,11 +217,7 @@ export default function Home() {
           return (
             <div
               key={index}
-              style={{
-                backgroundColor: "OldLace",
-                marginTop: "16px",
-                padding: "8px",
-              }}
+              className={styles.waves}
             >
               <div>Address: {wave.address}</div>
               <div>Time: {wave.timestamp.toString()}</div>

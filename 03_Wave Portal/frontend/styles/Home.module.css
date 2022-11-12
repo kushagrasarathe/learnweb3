@@ -1,11 +1,19 @@
 .container {
   padding: 0 2rem;
 }
+
 .mainContainer {
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   width: 100%;
-  margin-top: 64px;
+  height: 100vh;
+  padding: 0 30px;
+  padding-top: 100px;
+  background-image: url("../assets/bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .dataContainer {
@@ -19,11 +27,12 @@
   text-align: center;
   font-size: 32px;
   font-weight: 600;
+  color: whitesmoke;
 }
 
 .bio {
   text-align: center;
-  color: gray;
+  color: whitesmoke;
   margin-top: 16px;
 }
 
@@ -33,12 +42,45 @@
   padding: 8px;
   border: 0;
   border-radius: 5px;
-  
+  background-color: #8b93ff;
+  font-weight: 600;
+}
+
+.waveButton:hover {
+  background-color: #9ea9ff;
 }
 
 .input {
   margin: 20px 0;
-  padding: 8px 12px;
+  margin-top: 25px;
+  padding: 12px 15px;
   border-radius: 5px;
   border: 1px solid gray;
+}
+
+.waves {
+  border: 2px solid rgb(175, 186, 255);
+  border-radius: 6px;
+  padding: 25px 40px;
+  margin-top: 35px;
+  color: whitesmoke;
+  backdrop-filter: 20px;
+  transition: 0.2s ease-in-out;
+  
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.271);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.waves div {
+  margin-top: 5px;
+}
+
+.waves:hover {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.508);
+  transform: scale(1.02);
+  cursor: pointer;
 }
