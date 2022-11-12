@@ -34,8 +34,9 @@ const findMetaMaskAccount = async () => {
 export default function Home() {
   const [currentAccount, setCurrentAccount] = useState("");
   const [allWaves, setAllWaves] = useState([]);
+  const [msg, setMsg] = useState("");
 
-  const contractAddress = "0x9206081496A2E0b92B21a8Be41D95Fd40cEe0Ec5";
+  const contractAddress = "0x3ecb62cfF8A622208bD7a29a61BE386Ce1Ce4d9a";
   const contractABI = abi.abi;
 
   // connect wallet
@@ -75,7 +76,9 @@ export default function Home() {
         console.log("Retrieved total wave count...", count.toNumber());
 
         // writing to blockchain
-        const waveTxn = await wavePortalContract.wave("this is a message");
+        const waveTxn = await wavePortalContract.wave(msg, {
+          gasLimit: 300000,
+        });
         console.log("Mining...", waveTxn.hash);
 
         await waveTxn.wait();
@@ -144,6 +147,40 @@ export default function Home() {
     checkIfWalletIsConnected();
   }, []);
 
+  useEffect(() => {
+    let wavePortalContract;
+
+    const onNewWave = (from, timestamp, message) => {
+      console.log("NewWave", from, timestamp, message);
+      setAllWaves((prevState) => [
+        ...prevState,
+        {
+          address: from,
+          timestamp: new Date(timestamp * 1000),
+          message: message,
+        },
+      ]);
+    };
+
+    if (window.ethereum) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+
+      wavePortalContract = new ethers.Contract(
+        contractAddress,
+        contractABI,
+        signer
+      );
+      wavePortalContract.on("NewWave", onNewWave);
+    }
+
+    return () => {
+      if (wavePortalContract) {
+        wavePortalContract.off("NewWave", onNewWave);
+      }
+    };
+  }, []);
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.dataContainer}>
@@ -158,6 +195,15 @@ export default function Home() {
           Wave at Me
         </button>
 
+        <input
+          onChange={(e) => {
+            setMsg(e.target.value);
+          }}
+          value={msg}
+          placeholder="Enter a message here :)"
+          className={styles.input}
+        />
+
         {/*
          * If there is no currentAccount render this button
          */}
@@ -168,7 +214,7 @@ export default function Home() {
         )}
 
         {allWaves.map((wave, index) => {
-          return(
+          return (
             <div
               key={index}
               style={{
