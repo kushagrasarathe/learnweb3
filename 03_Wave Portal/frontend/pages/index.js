@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
-import { ethers } from "ethers";
+import ethers from "ethers";
 import abi from "../src/utlis/WavePortal.json";
 
 const getEthereumObject = () => window.ethereum;
